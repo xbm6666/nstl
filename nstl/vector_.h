@@ -2,7 +2,8 @@
 
 #include <limits>
 #include <cassert>
-
+#include <algorithm>
+#include <random>
 
 #include "allocator_.h"
 #include "iterator_.h"
@@ -39,9 +40,11 @@ public:
 		reserve(n);
 		for (int i = 0; i < n; ++i)
 			begin_[i] = x;
+		end_ = begin_ + n;
 	}
 
 	template<typename InputIterator>
+	requires InputIterator::iterator_category
 	vector(InputIterator first, InputIterator end)
 	{
 		while (first != end)
@@ -66,14 +69,14 @@ public:
 		begin_ = new_begin;
 	}
 
-	reference operator[](size_type n)
+	reference operator[](const size_type n)const noexcept
 	{
 		return begin_[n];
 	}
 
 	size_type max_size() { return std::numeric_limits<size_type>::max(); }
 
-	size_type size() { return end_ - begin_; }
+	size_type size()const { return end_ - begin_; }
 
 	size_type capacity() { return cap_ - begin_; }
 
@@ -150,5 +153,17 @@ bool operator==(const Vec1& lhs,const Vec2& rhs)
 	return true;
 }
 
+template<typename T=int>
+vector<T>random_vector(T min, T max, T step=1)
+{
+	vector<T>randoms;
+	for (T i = min; i < max; i+=step) {
+		randoms.push_back(i);
+	}
+	std::random_device rd;
+	std::mt19937 g(rd());
+	std::shuffle(randoms.begin(), randoms.end(), g);
+	return randoms;
+}
 
 }

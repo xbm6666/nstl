@@ -22,13 +22,24 @@ struct iterator
 	using reference = value_type&;
 };
 
+template<class T>
+struct pointer_value_type
+{
+	using value_type = T;
+};
+template<class T>
+struct pointer_value_type<T*>
+{
+	using value_type = T;
+};
+
 template<typename T>
 class __warp_iter
 {
 public:
 	using iterator_type = T;
 	using iterator_category = random_access_iterator_tag;
-	using value_type = decltype(*T);
+	using value_type = pointer_value_type<T>::value_type;
 	using difference_type = unsigned int;
 	using pointer = value_type*;
 	using reference = value_type&;
@@ -39,7 +50,7 @@ private:
 public:
 	__warp_iter(iterator_type rhs) :p(rhs) {};
 
-	__warp_iter(const __warp_iter& rhs) :p(rhs->p) {};
+	__warp_iter(const __warp_iter& rhs):p(rhs.p) {};
 
 	__warp_iter& operator=(const __warp_iter& rhs)
 	{
@@ -80,7 +91,7 @@ public:
 		--(*this);
 		return tmp;
 	}
-	__warp_iter& operator+(difference_type n)
+	__warp_iter operator+(difference_type n)
 	{
 		__warp_iter tmp(*this);
 		tmp += n;
@@ -108,7 +119,7 @@ public:
 		return p[n];
 	}
 
-	iterator_type base() { return p; }
+	iterator_type base()const { return p; }
 
 	auto operator<=>(const __warp_iter<T>& rhs)const
 	{
