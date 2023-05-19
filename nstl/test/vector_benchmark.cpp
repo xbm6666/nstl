@@ -18,7 +18,7 @@ static void BM_vector_grow(benchmark::State& state)
 	}
 	state.SetComplexityN(state.range(0));
 }
-BENCHMARK(BM_vector_grow)->Range(8, 8 << 20)->Complexity()->Repetitions(2);
+BENCHMARK(BM_vector_grow)->Range(8, 8 << 20)->Complexity();
 
 static void BM_myvector_grow(benchmark::State& state)
 {
@@ -31,7 +31,7 @@ static void BM_myvector_grow(benchmark::State& state)
 	state.SetComplexityN(state.range(0));
 }
 
-BENCHMARK(BM_myvector_grow)->Range(8, 8 << 20)->Complexity()->Repetitions(2);
+BENCHMARK(BM_myvector_grow)->Range(8, 8 << 20)->Complexity();
 
 static void BM_vector_size(benchmark::State& state)
 {
@@ -40,7 +40,7 @@ static void BM_vector_size(benchmark::State& state)
 	}
 	state.SetComplexityN(state.range(0));
 }
-BENCHMARK(BM_vector_size)->Range(8, 8 << 20)->Complexity()->Repetitions(2);
+BENCHMARK(BM_vector_size)->Range(8, 8 << 20)->Complexity();
 
 static void BM_myvector_size(benchmark::State& state)
 {
@@ -50,7 +50,7 @@ static void BM_myvector_size(benchmark::State& state)
 	state.SetComplexityN(state.range(0));
 }
 
-BENCHMARK(BM_myvector_size)->Range(8, 8 << 20)->Complexity()->Repetitions(2);
+BENCHMARK(BM_myvector_size)->Range(8, 8 << 20)->Complexity();
 
 int main(int argc, char** argv)
 {

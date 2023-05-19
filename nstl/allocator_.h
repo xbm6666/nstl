@@ -31,4 +31,7 @@ public:
 	struct rebind { using other = Allocator<U>; };
 };
 
+template<typename Traits, typename T>
+using rebind_alloc =typename Traits::template rebind<T>::other;
+
 }

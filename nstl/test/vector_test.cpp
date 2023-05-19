@@ -1,9 +1,10 @@
 #pragma once
-#include <iostream>
 #include <vector>
 
 #include "gtest/gtest.h"
 
+#include "generate_randow_container.h"
+#include "sequence_equal.h"
 #include "vector_.h"
 
 
@@ -15,31 +16,13 @@ TEST(vector, grow)
 		nvec.push_back(i);
 		svec.push_back(i);
 	}
-	EXPECT_EQ(nvec, svec);
-}
-
-TEST(vector, logic)
-{
-	nstl::vector<int> nvec;
-	std::vector<int> svec;
-	nvec.push_back(5);
-	nvec.push_back(2);
-	nvec.push_back(3);
-	nvec.pop_back();
-	svec.push_back(5);
-	svec.push_back(2);
-	svec.push_back(3);
-	svec.pop_back();
-	EXPECT_EQ(nvec, svec);
-	nvec.clear();
-	svec.clear();
-	EXPECT_EQ(nvec, svec);
+	EXPECT_TRUE(nvec == svec);
+	EXPECT_TRUE(nvec._invariants());
 }
 
 TEST(vector, random)
 {
-	
-	nstl::vector<int>randoms= nstl::random_vector(-100000, 2000000);
+	nstl::vector<int>randoms= nstl::generate_random_vector(-100000, 2000000);
 
 	nstl::vector<int> nvec;
 	std::vector<int> svec;
@@ -48,22 +31,36 @@ TEST(vector, random)
 		if (n>0||nvec.empty()) {
 			nvec.push_back(n);
 			svec.push_back(n);
-			continue;
 		}
 		else {
 			nvec.pop_back();
 			svec.pop_back();
 		}
 	}
-	EXPECT_EQ(nvec, svec);
+	EXPECT_TRUE(nvec == svec);
+	EXPECT_TRUE(nvec._invariants());
+
+	nvec.clear();
+	svec.clear();
+
+	EXPECT_TRUE(nvec == svec);
+	EXPECT_TRUE(nvec._invariants());
 }
 
 TEST(vector, size)
 {
-	nstl::vector<int> nvec(10000,3);
-	std::vector<int> svec(10000, 3);
+	nstl::vector<int> nvec(10000);
+	std::vector<int> svec(10000);
 	
-	EXPECT_EQ(nvec, svec);
+	EXPECT_TRUE(nvec == svec);
+	EXPECT_TRUE(nvec._invariants());
+
+	nstl::vector<int> nvec1(10000, 3);
+	std::vector<int> svec1(10000, 3);
+
+	EXPECT_TRUE(nvec1 == svec1);
+	EXPECT_TRUE(nvec1._invariants());
+
 }
 
 
