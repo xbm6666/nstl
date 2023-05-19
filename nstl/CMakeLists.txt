@@ -1,1 +1,3 @@
-﻿add_subdirectory("test")
+﻿include_directories("utils")
+
+add_subdirectory("test")
