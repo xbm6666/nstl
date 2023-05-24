@@ -3,8 +3,7 @@
 #include <limits>
 #include <cassert>
 #include <algorithm>
-#include <random>
-
+#include <initializer_list>
 
 #include "swap.h"
 #include "allocator_.h"
@@ -47,7 +46,7 @@ public:
 
 	pointer operator->()
 	{
-		return p.operator->();
+		return p;
 	}
 
 	_warp_iter& operator++()
@@ -153,6 +152,14 @@ public:
 		swap(rhs);
 	}
 
+	vector(std::initializer_list<value_type>lst)
+	{
+		reserve(lst.size());
+		int i = 0;
+		for (auto v : lst)
+			begin_[i++] = v;
+		end_ = begin_ + i;
+	}
 
 	explicit vector(size_type n):vector(n,T{})
 	{}
@@ -198,8 +205,8 @@ public:
 			new_begin[i] = begin_[i];
 		}
 
-		if (begin_ != nullptr);
-		alloc_.deallocate(begin_, size());
+		if (begin_ != nullptr)
+			alloc_.deallocate(begin_, size());
 
 		cap_ = new_begin + n;
 		end_ = new_begin + size();
@@ -247,6 +254,14 @@ public:
 		if (count > capacity()) {
 			reserve(count);
 		}
+
+		if(count>size())
+		{
+			for (size_type sz = size(); sz < count; ++sz)
+			{
+				push_back(value_type{});
+			}
+		}
 		else {
 			end_ = begin_ + count;
 		}
@@ -256,7 +271,9 @@ public:
 	{
 		if (capacity() == 0)reserve(8);
 		else if (end_ == cap_)reserve(capacity() * 2);
-		*end_++ = value;
+		end_ = new(end_) value_type;
+		*end_ = value;
+		++end_;
 	}
 
 	void pop_back()

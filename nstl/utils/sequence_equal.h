@@ -7,10 +7,10 @@ template<typename Vec1, typename Vec2>
 	v1.size();
 	v1.begin();
 	v1.end();
+
 	v2.size();
 	v2.begin();
 	v2.end();
-
 }
 bool operator==(const Vec1& lhs, const Vec2& rhs)
 {

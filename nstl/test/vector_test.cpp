@@ -39,12 +39,6 @@ TEST(vector, random)
 	}
 	EXPECT_TRUE(nvec == svec);
 	EXPECT_TRUE(nvec._invariants());
-
-	nvec.clear();
-	svec.clear();
-
-	EXPECT_TRUE(nvec == svec);
-	EXPECT_TRUE(nvec._invariants());
 }
 
 TEST(vector, size)
@@ -55,6 +49,12 @@ TEST(vector, size)
 	EXPECT_TRUE(nvec == svec);
 	EXPECT_TRUE(nvec._invariants());
 
+	nvec.clear();
+	svec.clear();
+
+	EXPECT_TRUE(nvec == svec);
+	EXPECT_TRUE(nvec._invariants());
+
 	nstl::vector<int> nvec1(10000, 3);
 	std::vector<int> svec1(10000, 3);
 
@@ -62,7 +62,18 @@ TEST(vector, size)
 	EXPECT_TRUE(nvec1._invariants());
 
 }
+TEST(vector, init)
+{
+	nstl::vector<int> nvec{1,4,55,7,9,0,4};
+	std::vector<int> svec{ 1,4,55,7,9,0,4 };
+	EXPECT_TRUE(nvec == svec);
+	EXPECT_TRUE(nvec._invariants());
 
+	nvec.clear();
+	svec.clear();
+	EXPECT_TRUE(nvec == svec);
+	EXPECT_TRUE(nvec._invariants());
+}
 
 int main(int argc, char** argv)
 {

@@ -1,5 +1,4 @@
 #pragma once
-#include "iostream"
 
 #include "iterator_.h"
 #include "allocator_.h"
@@ -22,14 +21,14 @@ class _deque_iterator
 {
 public:
 	using value_type = ValueType;
-	using Pointer = value_type*;
+	using pointer = value_type*;
 	using reference = value_type&;
 	using difference_type = DiffType;
 	using iterator_category = random_access_iterator_tag;
 
 private:
 	MapPointer map_pointer_ = nullptr;
-	Pointer pointer_ = nullptr;
+	pointer pointer_ = nullptr;
 
 public:
 	constexpr static DiffType _block_size = BS;
@@ -38,13 +37,13 @@ public:
 
 	_deque_iterator(const _deque_iterator&) = default;
 
-	explicit _deque_iterator(MapPointer mp, Pointer p)
+	explicit _deque_iterator(MapPointer mp, pointer p)
 		:map_pointer_(mp), pointer_(p)
 	{}
 
 	reference operator*()const { return *pointer_; }
 
-	reference operator->()const { return pointer_; }
+	pointer operator->()const { return pointer_; }
 
 	_deque_iterator& operator++()
 	{
@@ -164,7 +163,10 @@ public:
 
 };
 
-template<typename T,typename alloc=Allocator<T>>
+template<
+	typename T,
+	typename Map=devector<T*>,
+	typename alloc=Allocator<T>>
 class deque
 {
 public:
@@ -174,7 +176,8 @@ public:
 	using difference_type = allocator_type::difference_type;
 	using pointer = allocator_type::pointer;
 	using _pointer_allocator = rebind_alloc<alloc, pointer>;
-	using _map = devector < pointer, _pointer_allocator>;
+	//using _map = devector< pointer, _pointer_allocator>;
+	using _map = Map;
 	using _map_alloc = _pointer_allocator;
 	using _map_pointer = typename _map_alloc::pointer;
 

@@ -7,6 +7,7 @@
 #include "vector_.h"
 #include "_devector_.h"
 #include "deque_.h"
+#include "list_.h"
 
 template<typename Deque>
 static void BM_grow(benchmark::State& state)
@@ -22,7 +23,8 @@ static void BM_grow(benchmark::State& state)
 }
 BENCHMARK(BM_grow<std::deque<int>>)->Range(8, 8 << 20)->Complexity();
 BENCHMARK(BM_grow<nstl::devector<int>>)->Range(8, 8 << 20)->Complexity();
-BENCHMARK(BM_grow<nstl::deque<int>>)->Range(8, 8 << 20)->Complexity();
+BENCHMARK(BM_grow<nstl::list<int>>)->Range(8, 8 << 20)->Complexity();
+BENCHMARK(BM_grow<nstl::deque<int, nstl::devector<int*>>> )->Range(8, 8 << 20)->Complexity();
 
 template<typename Deque>
 static void BM_random(benchmark::State& state)
@@ -60,9 +62,8 @@ static void BM_random(benchmark::State& state)
 }
 BENCHMARK(BM_random<std::deque<int>>)->Range(8, 8 << 20)->Complexity();
 BENCHMARK(BM_random<nstl::devector<int>>)->Range(8, 8 << 20)->Complexity();
-BENCHMARK(BM_random<nstl::deque<int>>)->Range(8, 8 << 20)->Complexity();
-
-
+BENCHMARK(BM_random<nstl::list<int>>)->Range(8, 8 << 20)->Complexity();
+BENCHMARK(BM_random<nstl::deque<int,nstl::devector<int*>>>)->Range(8, 8 << 20)->Complexity();
 
 int main(int argc, char** argv)
 {

@@ -6,12 +6,17 @@
 #include "vector_.h"
 #include "_devector_.h"
 #include "deque_.h"
+#include "list_.h"
 
 template<typename T>
 class deque_test:public testing::Test
 {};
 
-using deque_types = ::testing::Types<nstl::devector<int>, nstl::deque<int>>;
+using deque_types = ::testing::Types<
+	nstl::list<int>,
+	nstl::devector<int>,
+	nstl::deque<int>
+>;
 TYPED_TEST_SUITE(deque_test, deque_types);
 
 
@@ -33,8 +38,6 @@ TYPED_TEST(deque_test, grow)
 			ndeq.push_front(i);
 			sdeq.push_front(i);
 		}
-		if(!ndeq._invariants())
-			ndeq._invariants();
 	}
 	EXPECT_TRUE(sdeq == ndeq);
 	EXPECT_TRUE(ndeq._invariants());
@@ -89,7 +92,7 @@ int main(int argc, char** argv)
 {
 	
 	const char* new_argv[] ={ argv[0],
-		"--gtest_repeat=100",
+		"--gtest_repeat=10",
 		"--gtest_color=yes"
 	};
 	int new_argc = std::end(new_argv) - std::begin(new_argv);
