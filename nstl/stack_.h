@@ -13,18 +13,18 @@ public:
 	using size_type = container_type::size_type;
 
 protected:
-	container_type c;
+	container_type c_;
 
 public:
-	bool empty()const { return c.empty(); }
+	bool empty()const { return c_.empty(); }
 
-	size_type size()const { return c.size(); }
+	size_type size()const { return c_.size(); }
 
-	reference top() { return c.back(); }
+	reference top() { return c_.back(); }
 
-	void push(const value_type& v) { c.push_back(v); }
+	void push(const value_type& v) { c_.push_back(v); }
 
-	void pop() { c.pop_back(); }
+	void pop() { c_.pop_back(); }
 };
 
 }
